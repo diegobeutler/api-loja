@@ -5,9 +5,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
-@Entity // transformar em uma entidade JPA
+@Entity
 public class Usuario {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) // @Id precisa ir sobre a chave primária e Gernerated é para gerar a chave de forma automática
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nome;
     private String email;
@@ -17,7 +17,7 @@ public class Usuario {
 
     }
 
-    @Override// quer dizer que estou sobrescrevendo um método da classe pai
+    @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;

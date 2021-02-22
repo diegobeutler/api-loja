@@ -32,7 +32,7 @@ public class AnuncioDto {
     }
 
     public static List<AnuncioDto> converter(List<Anuncio> anuncios) {
-        return anuncios.stream().map(AnuncioDto::new).collect(Collectors.toList()); // AnuncioDto::new chama o construtor pardrão, .collect(Collectors.toList()); para transformar em uma lista encadear tudo,
+        return anuncios.stream().map(AnuncioDto::new).collect(Collectors.toList());
     }
 
     public Long getId() {

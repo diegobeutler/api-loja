@@ -20,13 +20,11 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/usuario")
 public class UsuariosController {
-    @Autowired //injeta o Repository
+    @Autowired
     private UsuarioRepository usuarioRepository;
 
-    // @ResponseBody() não precisa pois foi usado o @RestController
-    //@RequestMapping(value= "/anuncios", method = RequestMethod.GET )
     @GetMapping
-    public List<UsuarioDto> lista() {// Dto quando sai da api e vai para o cliente
+    public List<UsuarioDto> lista() {
         List<Usuario> usuarios;
         usuarios = usuarioRepository.findAll();
         return UsuarioDto.converter(usuarios);
@@ -34,11 +32,11 @@ public class UsuariosController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioForm usuarioForm, UriComponentsBuilder uriBuilder) {// form quando vem do cliente para api -- @RequestBody fala que o parêmetro diferente do método lista vem no corpo da requisição e não da url
+    public ResponseEntity<UsuarioDto> cadastrar(@RequestBody @Valid UsuarioForm usuarioForm, UriComponentsBuilder uriBuilder) {
         Usuario usuario = usuarioForm.converter();
         usuarioRepository.save(usuario);
         URI uri = uriBuilder.path("/anuncios/{id}").buildAndExpand(usuario.getId()).toUri();
-        return ResponseEntity.created(uri).body(new UsuarioDto(usuario));// retornar o código, exemplo 201 se ocorreu tudo certo
+        return ResponseEntity.created(uri).body(new UsuarioDto(usuario));
     }
 
     @PutMapping()

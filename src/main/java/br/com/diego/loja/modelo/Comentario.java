@@ -20,7 +20,6 @@ public class Comentario {
     @ManyToOne
     private Usuario autor;
 
-//    @Override// quer dizer que estou sobrescrevendo um método da classe pai
 
 
     @Override

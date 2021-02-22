@@ -36,11 +36,11 @@ public class SimpleCORSFilter implements Filter {
 
     @Override
     public void destroy() {
-        // Do not implemented
+
     }
 
     @Override
     public void init(FilterConfig config) {
-        // Do not implemented
+
     }
 }

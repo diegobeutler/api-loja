@@ -19,20 +19,14 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
-//@Controller
 @RestController
 @RequestMapping("/anuncios")
-//@CrossOrigin(origins = "http://localhost:4200")
-// fala que a classe responde a esse endereço evitando que precise colocar em todos os métodos
 public class AnunciosController {
-    // endPoint == endereço que vai devolver a lista com todos os anuncios
-    @Autowired //injeta o Repository
+    @Autowired
     private AnuncioRepository anuncioRepository;
 
-    // @ResponseBody() não precisa pois foi usado o @RestController
-    //@RequestMapping(value= "/anuncios", method = RequestMethod.GET )
     @GetMapping
-    public List<AnuncioDto> lista(String titulo) {// Dto quando sai da api e vai para o cliente
+    public List<AnuncioDto> lista(String titulo) {
         List<Anuncio> anuncios;
         if (titulo == null) {
             anuncios = anuncioRepository.findAll();
@@ -43,7 +37,7 @@ public class AnunciosController {
     }
 
     @GetMapping("/user/{userName}")
-    public List<AnuncioDto> listaPorUsuario(@PathVariable String userName) {// Dto quando sai da api e vai para o cliente
+    public List<AnuncioDto> listaPorUsuario(@PathVariable String userName) {
         List<Anuncio> anuncios;
         anuncios = anuncioRepository.findByAutor_Nome(userName);
         return AnuncioDto.converter(anuncios);
@@ -51,11 +45,11 @@ public class AnunciosController {
 
     @PostMapping
     @Transactional
-    public ResponseEntity<AnuncioDto> cadastrar(@RequestBody @Valid AnuncioForm anuncioForm, UriComponentsBuilder uriBuilder) {// form quando vem do cliente para api -- @RequestBody fala que o parêmetro diferente do método lista vem no corpo da requisição e não da url
+    public ResponseEntity<AnuncioDto> cadastrar(@RequestBody @Valid AnuncioForm anuncioForm, UriComponentsBuilder uriBuilder) {
         Anuncio anuncio = anuncioForm.converter();
         anuncioRepository.save(anuncio);
         URI uri = uriBuilder.path("/anuncios/{id}").buildAndExpand(anuncio.getId()).toUri();
-        return ResponseEntity.created(uri).body(new AnuncioDto(anuncio));// retornar o código, exemplo 201 se ocorreu tudo certo
+        return ResponseEntity.created(uri).body(new AnuncioDto(anuncio));
     }
 
     @GetMapping("/{id}")
@@ -66,16 +60,7 @@ public class AnunciosController {
         }
         return ResponseEntity.notFound().build();
     }
-    /*    @GetMapping("/{id}")
-    public ResponseEntity<DetalhesAnuncioDto> detalhar(@PathVariable Long id) {
-        Optional<Anuncio> anuncio = anuncioRepository.findById(id);
-        if (anuncio.isPresent()) {
-            return ResponseEntity.ok(new DetalhesAnuncioDto(anuncio.get()));
-        }
-        return ResponseEntity.notFound().build();
-    }*/
 
-   
     @PutMapping("/{id}")
     @Transactional
     public ResponseEntity<AnuncioDto> atualizar(@PathVariable Long id, @RequestBody @Valid AnuncioForm form) {
