@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class HelloController {
 
     @RequestMapping("/")  /// diz quando vai ser chamado
-    @ResponseBody // para não navegar para uma página, caso contrário o spring vai pensar que é uma
+    @ResponseBody /// para não navegar para uma página, caso contrário o spring vai pensar que é uma
     public void executa() {
         System.out.println( "olá mundo");
     }
